@@ -11,5 +11,12 @@ azup:
 		--parameters ./vm.parameters.json adminPublicKey=@$(SSH_KEY_PATH)
 	az network public-ip list -o table
 
+aksup:
+	az group create -n "$(RESOURCE_GROUP)" --location "eastasia"
+	az deployment group create -n "$(DEPLOYMENT_NAME)" \
+		--resource-group "$(RESOURCE_GROUP)" \
+		--template-file ./aks.json \
+		--parameters ./aks.parameters.json adminPublicKey=@$(SSH_KEY_PATH)
+
 clean:
 	az group delete -n "$(RESOURCE_GROUP)" --yes --no-wait
